@@ -1,1 +1,3 @@
+src/*.pyc
+test/*.pyc
 pybigdata/
