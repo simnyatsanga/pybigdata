@@ -2,6 +2,14 @@ import collections
 from collections import OrderedDict
 
 class MapReduce():
+
+    def list_of_grades(self, grades):
+        grade_numbers = []
+        for grade in grades:
+            grade_numbers.append(grade['score'])
+
+        return grade_numbers
+
     def map(self, collection):
         mapped_restaurant_collection = {}
         mapped_restaurants = {}
@@ -9,7 +17,7 @@ class MapReduce():
             if restaurant['name'] == "":
                 restaurant['name'] = "noname"
 
-            mapped_restaurants[restaurant['name']] = restaurant['grades']
+            mapped_restaurants[restaurant['name']] = self.list_of_grades(restaurant['grades'])
 
         return mapped_restaurants
 
