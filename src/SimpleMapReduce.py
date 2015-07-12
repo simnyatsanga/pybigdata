@@ -1,3 +1,6 @@
+import collections
+from collections import OrderedDict
+
 class MapReduce():
     def map(self, collection):
         mapped_restaurant_collection = {}
@@ -20,3 +23,12 @@ class MapReduce():
 
         reduced_restaurants = mapped_restaurants
         return reduced_restaurants
+
+    def sort(self, reduced_restaurants):
+        sorted_dict = {}
+
+        sorted_restaurants_desc = OrderedDict(sorted(reduced_restaurants.items() , key=lambda restaurant: restaurant[1], reverse=True))
+
+        sorted_dict = sorted_restaurants_desc
+
+        return sorted_dict

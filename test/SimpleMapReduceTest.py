@@ -50,3 +50,13 @@ def test_reduce_should_put_grade_as_zero_when_restaurant_has_no_grades():
     reduced_restaurants = mapreduce.reduce(mapped_restaurants)
 
     assert reduced_restaurants == {"melho":0, "tokai":27, "outback":21}
+
+def test_sort_should_sort_the_collection_of_restaurants_in_descending_order():
+    restaurants_collection = [{"name": "melho", "grades": [9,8,7], "address":"some address"}, {"name":"tokai", "grades":[9,9,9], "address":"some other address"}, {"name":"outback", "grades":[6,8,7], "address":"some other address"}]
+    mapreduce = MapReduce()
+
+    mapped_restaurants = mapreduce.map(restaurants_collection)
+    reduced_restaurants = mapreduce.reduce(mapped_restaurants)
+    sorted_restaurants = mapreduce.sort(reduced_restaurants)
+
+    assert sorted_restaurants == {"tokai":27, "melho":24, "outback":21}
