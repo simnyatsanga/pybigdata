@@ -4,39 +4,38 @@ from collections import OrderedDict
 class MapReduce():
 
     def list_of_grades(self, grades):
-        grade_numbers = []
+        grades_array = []
         for grade in grades:
-            grade_numbers.append(grade['score'])
+            grades_array.append(grade["score"])
 
-        return grade_numbers
+        return grades_array
 
     def map(self, collection):
-        mapped_restaurant_collection = {}
-        mapped_restaurants = {}
+        mapped_restaurants = []
+        mapped_restaurant = {}
         for restaurant in collection:
-            if restaurant['name'] == "":
-                restaurant['name'] = "noname"
-
-            mapped_restaurants[restaurant['name']] = self.list_of_grades(restaurant['grades'])
+            mapped_restaurant["name"] = restaurant["name"]
+            mapped_restaurant["grades"] = self.list_of_grades(restaurant["grades"])
+            mapped_restaurant["address"] = restaurant["address"]
+            mapped_restaurants.append(mapped_restaurant)
+            mapped_restaurant = {}
 
         return mapped_restaurants
 
     def reduce(self, mapped_restaurants):
-        reduced_restaurants = {}
-        for name in mapped_restaurants:
-            if len(mapped_restaurants[name]) == 0:
-                mapped_restaurants[name] = 0
+        reduced_restaurants = []
+        for restaurant in mapped_restaurants:
+            if len(restaurant["grades"]) == 0:
+                restaurant["grades"] = 0
             else:
-                mapped_restaurants[name] = reduce(lambda x, y: x+y, mapped_restaurants[name])
+                restaurant["grades"] = reduce(lambda x, y: x+y, restaurant["grades"])
+            reduced_restaurants.append(restaurant)
 
-        reduced_restaurants = mapped_restaurants
         return reduced_restaurants
 
     def sort(self, reduced_restaurants):
         sorted_dict = {}
 
-        sorted_restaurants_desc = OrderedDict(sorted(reduced_restaurants.items() , key=lambda restaurant: restaurant[1], reverse=True))
+        sorted_restaurants_desc = sorted(reduced_restaurants , key=lambda restaurant: restaurant["grades"], reverse=True)
 
-        sorted_dict = sorted_restaurants_desc
-
-        return sorted_dict
+        return sorted_restaurants_desc
