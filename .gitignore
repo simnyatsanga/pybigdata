@@ -1,3 +1,4 @@
 src/*.pyc
 test/*.pyc
 pybigdata/
+models/
