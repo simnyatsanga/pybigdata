@@ -31,15 +31,15 @@ def to_raw_dict(cursor):
 
 #TODO:Find better way to get the first 10 elements
     x = 0
-    top10_collection = {}
-    for restaurant_name, restaurant_grade in (sorted_result.iteritems()):
+    top10_collection = []
+    for restaurant in sorted_result:
         if x < 10:
-            top10_collection[restaurant_name] = restaurant_grade
+            top10_collection.append(restaurant)
             x = x + 1
         else:
             break
-#TODO:Sorting twice: in mapreduce and here, not good
-    return OrderedDict(sorted(top10_collection.items() , key=lambda restaurant: restaurant[1], reverse=True))
+
+    return top10_collection
 
 @app.route("/")
 def retrieve_planets():
