@@ -47,5 +47,15 @@ def retrieve_planets():
 
     return to_json(to_raw_dict(restaurant_collection))
 
+@app.route("/by_cuisine/<cuisine>")
+def retrieve_by_cuisine(cuisine):
+    restaurant_collection = db.restaurants.find({"$and": [{'grades': {"$ne":[]} }, {'name':{"$ne":""}}, {"cuisine":{"$eq":cuisine}}]})
+    return to_json(to_raw_dict(restaurant_collection))
+
+@app.route("/by_borough/<borough>")
+def retrieve_by_borough(borough):
+    restaurant_collection = db.restaurants.find({"$and": [{'grades': {"$ne":[]} }, {'name':{"$ne":""}}, {"borough":{"$eq":borough}}]})
+    return to_json(to_raw_dict(restaurant_collection))
+
 if __name__ == "__main__":
     app.run()
