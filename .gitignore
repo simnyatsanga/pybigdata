@@ -2,3 +2,4 @@ src/*.pyc
 test/*.pyc
 pybigdata/
 models/
+bower_components/

@@ -1,22 +1,33 @@
 
-var data;
-$.get('http://localhost:5000/', function(response) {
-  data = response;
-  console.log(data)
-});
+var data = null;
+var top_10_layer;
+qwest.get('http://localhost:5000')
+    .then(function(xhr, response) {
+      data = JSON.parse(xhr);
 
+      best_restaurants_layer = new L.LayerGroup();
 
-var map = L.map('map').setView([40.7142700, -74.0059700], 17);
+      data.forEach(function (restaurant) {
+         L.marker([restaurant.address.coord[1], restaurant.address.coord[0]]).bindPopup(restaurant.name + " on: "+ restaurant.address.building + " Building, " + restaurant.address.street ).addTo(best_restaurants_layer);
+      });
 
-L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(map);
+      var map_layer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+           attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>'
+       });
 
-L.marker([40.7142700, -74.0059700]).addTo(map)
-    .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
-    .openPopup();
+      var map = L.map('map', {
+        center: [40.7342700, -74.0059700],
+        zoom: 13,
+        layers: [map_layer, best_restaurants_layer]
+      });
 
+      var baseMaps = { "baseMap": map_layer };
+      var overlayMaps = { "restaurants": best_restaurants_layer };
 
+      L.control.layers(baseMaps, overlayMaps).addTo(map);
+ });
+
+//TODO: Utilise Three.js code
 // var scene = new THREE.Scene();
 // var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 1000 );
 //
