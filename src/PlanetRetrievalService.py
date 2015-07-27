@@ -10,7 +10,7 @@ from SimpleMapReduce import MapReduce
 app = Flask(__name__)
 cors = CORS(app)
 app.debug = True
-client = MongoClient()
+client = MongoClient('mongodb://simnyatsanga:godbless123@ds053310.mongolab.com:53310/heroku_v4m11b98')
 db = client.restaurantdb
 
 mapreduce = MapReduce()
