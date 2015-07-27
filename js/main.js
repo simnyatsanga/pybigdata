@@ -1,6 +1,6 @@
 
 var data = null;
-var top_10_layer;
+var best_restaurants_layer;
 qwest.get('http://localhost:5000')
     .then(function(xhr, response) {
       data = JSON.parse(xhr);
@@ -22,7 +22,7 @@ qwest.get('http://localhost:5000')
       });
 
       var baseMaps = { "baseMap": map_layer };
-      var overlayMaps = { "restaurants": best_restaurants_layer };
+      var overlayMaps = { "Top rated restaurants": best_restaurants_layer };
 
       L.control.layers(baseMaps, overlayMaps).addTo(map);
  });
