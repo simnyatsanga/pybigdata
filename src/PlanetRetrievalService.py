@@ -11,7 +11,7 @@ app = Flask(__name__)
 cors = CORS(app)
 app.debug = True
 client = MongoClient('mongodb://simnyatsanga:godbless123@ds053310.mongolab.com:53310/heroku_v4m11b98')
-db = client.restaurantdb
+db = client.heroku_v4m11b98
 
 mapreduce = MapReduce()
 
@@ -25,9 +25,8 @@ def to_raw_dict(cursor):
         collection.append(item)
 
 #TODO: Find best place to put mapreduce calls
-    mapped = mapreduce.map(collection)
-    reduced = mapreduce.reduce(mapped)
-    sorted_result = mapreduce.sort(reduced)
+    map_reduced = mapreduce.map_reduce(collection)
+    sorted_result = mapreduce.sort(map_reduced)
 
 #TODO:Find better way to get the first 10 elements
     x = 0
