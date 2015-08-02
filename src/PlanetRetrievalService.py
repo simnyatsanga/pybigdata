@@ -25,7 +25,7 @@ def to_raw_dict(cursor):
         collection.append(item)
 
 #TODO: Find best place to put mapreduce calls
-    map_reduced = mapreduce.map_reduce(collection)
+    map_reduced = mapreduce.map(collection)
     sorted_result = mapreduce.sort(map_reduced)
 
 #TODO:Find better way to get the first 10 elements
