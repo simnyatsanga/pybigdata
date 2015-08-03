@@ -6,12 +6,15 @@ from flask import Flask
 from pymongo import MongoClient
 from flask.ext.cors import CORS
 from SimpleMapReduce import MapReduce
+from multiprocessing.dummy import Pool as ThreadPool
 
 app = Flask(__name__)
 cors = CORS(app)
 app.debug = True
 client = MongoClient('mongodb://simnyatsanga:godbless123@ds053310.mongolab.com:53310/heroku_v4m11b98')
 db = client.heroku_v4m11b98
+# client = MongoClient()
+# db = client.restaurantdb
 
 mapreduce = MapReduce()
 
@@ -21,28 +24,28 @@ def to_json(obj):
 def to_raw_dict(cursor):
     collection = []
 
+    pool = ThreadPool(4)
+
     for item in cursor:
         collection.append(item)
 
 #TODO: Find best place to put mapreduce calls
-    map_reduced = mapreduce.map(collection)
+    map_reduced = pool.map(mapreduce.map, collection, chunksize=4)
+    pool.close()
+    pool.join()
+
+    # map_reduced = mapreduce.map(collection)
     sorted_result = mapreduce.sort(map_reduced)
 
 #TODO:Find better way to get the first 10 elements
-    x = 0
     top10_collection = []
-    for restaurant in sorted_result:
-        if x < 10:
-            top10_collection.append(restaurant)
-            x = x + 1
-        else:
-            break
-
+    for restaurant in sorted_result[:10]:
+        top10_collection.append(restaurant)
     return top10_collection
 
 @app.route("/")
 def retrieve_planets():
-    restaurant_collection = db.restaurants.find({"$and": [{'grades': {"$ne":[]} }, {'name':{"$ne":""}}]})
+    restaurant_collection = db.restaurants.find({"$and": [{'grades': {"$ne":[]} }, {'name':{"$ne":""}}, {"borough":{"$eq":"Brooklyn"}}]})
 
     return to_json(to_raw_dict(restaurant_collection))
 

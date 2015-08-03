@@ -10,18 +10,15 @@ class MapReduce():
 
         return grades_array
 
-    def map(self, collection):
-        mapped_restaurants = []
+    def map(self, restaurant):
         mapped_restaurant = {}
-        for restaurant in collection:
-            mapped_restaurant["name"] = restaurant["name"]
-            mapped_restaurant["grades"] = self.list_of_grades(restaurant["grades"])
-            mapped_restaurant["grades"] = reduce(lambda x, y: x+y, mapped_restaurant["grades"])
-            mapped_restaurant["address"] = restaurant["address"]
-            mapped_restaurants.append(mapped_restaurant)
-            mapped_restaurant = {}
 
-        return mapped_restaurants
+        mapped_restaurant["name"] = restaurant["name"]
+        mapped_restaurant["grades"] = self.list_of_grades(restaurant["grades"])
+        mapped_restaurant["grades"] = reduce(lambda x, y: x+y, mapped_restaurant["grades"])
+        mapped_restaurant["address"] = restaurant["address"]
+
+        return mapped_restaurant
 
     # def map_reduce(self, restaurants):
     #     map_reduced_restaurants = []
