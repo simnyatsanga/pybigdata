@@ -1,8 +1,7 @@
 
 var data = null;
 var best_restaurants_layer;
-var url_string = 'http://localhost:' + process.env.PORT
-qwest.get('http://localhost:5000')
+qwest.get('http://localhost:5100')
     .then(function(xhr, response) {
       data = JSON.parse(xhr);
 

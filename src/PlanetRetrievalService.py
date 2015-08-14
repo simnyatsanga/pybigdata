@@ -1,8 +1,10 @@
 import json
+import os
 import collections
 from collections import OrderedDict
 from bson import json_util
 from flask import Flask
+from flask import render_template
 from pymongo import MongoClient
 from flask.ext.cors import CORS
 from SimpleMapReduce import MapReduce
@@ -45,9 +47,17 @@ def to_raw_dict(cursor):
 
 @app.route("/")
 def retrieve_planets():
-    restaurant_collection = db.restaurants.find({"$and": [{'grades': {"$ne":[]} }, {'name':{"$ne":""}}, {"borough":{"$eq":"Brooklyn"}}]})
+    restaurant_collection = db.restaurants.find({"$and": [{'grades': {"$ne":[]} }, {'name':{"$ne":""}}]})
 
     return to_json(to_raw_dict(restaurant_collection))
+    # return app.sent_static_file('index.html')
+
+# @app.route("/top_10_restaurants")
+# def retrieve_best_restaurants():
+#     restaurant_collection = db.restaurants.find({"$and": [{'grades': {"$ne":[]} }, {'name':{"$ne":""}}]})
+#
+#     return to_json(to_raw_dict(restaurant_collection))
+
 
 @app.route("/by_cuisine/<cuisine>")
 def retrieve_by_cuisine(cuisine):
@@ -59,5 +69,11 @@ def retrieve_by_borough(borough):
     restaurant_collection = db.restaurants.find({"$and": [{'grades': {"$ne":[]} }, {'name':{"$ne":""}}, {"borough":{"$eq":borough}}]})
     return to_json(to_raw_dict(restaurant_collection))
 
+# def pass_port_to_js(port):
+#     return render_template('index.html', port=port)
+
 if __name__ == "__main__":
-    app.run()
+    # Bind to PORT if defined, otherwise default to 5000.
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
+    # pass_port_to_js(port)
