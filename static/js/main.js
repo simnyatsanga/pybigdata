@@ -1,7 +1,6 @@
 
 var data = null;
 var best_restaurants_layer;
-// var port = {{ port }}
 qwest.get('http://localhost:5100/top_10_restaurants')
     .then(function(xhr, response) {
       data = JSON.parse(xhr);

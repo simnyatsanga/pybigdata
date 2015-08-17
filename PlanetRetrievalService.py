@@ -10,7 +10,7 @@ from flask.ext.cors import CORS
 from SimpleMapReduce import MapReduce
 from multiprocessing.dummy import Pool as ThreadPool
 
-app = Flask(__name__, static_url_path='/static')
+app = Flask(__name__)
 cors = CORS(app)
 app.debug = True
 port = 0
