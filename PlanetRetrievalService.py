@@ -13,6 +13,7 @@ from multiprocessing.dummy import Pool as ThreadPool
 app = Flask(__name__, static_url_path='/static')
 cors = CORS(app)
 app.debug = True
+port = 0
 client = MongoClient('mongodb://simnyatsanga:godbless123@ds053310.mongolab.com:53310/heroku_v4m11b98')
 db = client.heroku_v4m11b98
 # client = MongoClient()
@@ -50,7 +51,7 @@ def retrieve_planets():
     # restaurant_collection = db.restaurants.find({"$and": [{'grades': {"$ne":[]} }, {'name':{"$ne":""}}]})
 
     # return to_json(to_raw_dict(restaurant_collection))
-    return app.send_static_file('index.html')
+    return render_template('index.html', port=port)
 
 @app.route('/top_10_restaurants')
 def retrieve_best_restaurants():
