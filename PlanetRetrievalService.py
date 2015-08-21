@@ -42,7 +42,7 @@ def to_raw_dict(cursor):
 
 #TODO:Find better way to get the first 10 elements
     top10_collection = []
-    for restaurant in sorted_result[:10]:
+    for restaurant in sorted_result[:50]:
         top10_collection.append(restaurant)
     return top10_collection
 
